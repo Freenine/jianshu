@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>indexs</title>
+</head>
+<body>
+{% for li in article_list %}
+    <li><a href="{{ li.url }}">{{ li.title }} - {{ li.user_id }}</a></li>
+{% endfor %}
+</body>
+</html>
