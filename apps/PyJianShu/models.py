@@ -16,16 +16,15 @@ class Article(models.Model):
 class Comment(models.Model):
     content = models.CharField(max_length=40, verbose_name='评论内容')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='用户id')
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name='文章id')
+    js_user_id = models.CharField(max_length=40, verbose_name='简书用户id')
     js_article_id = models.CharField(max_length=40, verbose_name='简书文章id')
-    js_article_user = models.CharField(max_length=40, verbose_name='文章所属用户简书id')
+    js_article_user_id = models.CharField(max_length=40, verbose_name='文章所属用户简书id')
     newstime = models.DateTimeField(verbose_name='评论时间')
 
 class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,verbose_name='用户id')
     js_user_id = models.CharField(max_length=40, verbose_name='简书用户id')
     js_like_user_id = models.CharField(max_length=40, verbose_name='简书获赞人id')
     js_article_id = models.CharField(max_length=40, verbose_name='简书文章id')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='用户id')
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name='文章id')
     newstime = models.DateTimeField(verbose_name='点赞时间')
 
