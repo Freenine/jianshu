@@ -1,5 +1,6 @@
 import requests,time, datetime,threading
 from bs4 import BeautifulSoup
+from .models import *
 
 user_all_list =[]
 flag = 0
@@ -204,3 +205,10 @@ def appendLike(li,user_js_id,span,user_id):
     d['user_id'] = user_id
 
     return d
+
+def execute():
+    list = User.objects.all()
+    data = getData(list)
+    Article.addArticles(data['article_list'])
+    Comment.addComments(data['comment_list'])
+    Like.addLikes(data['like_list'])
