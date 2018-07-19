@@ -122,3 +122,18 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+CELERY_TIMEZONE = 'Asia/Shanghai'
+
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+        'add-every-30-seconds': {
+        'task': 'apps.PyJianShu.tasks.add',
+        'schedule': crontab(hour=10, minute=7),
+        'args': ()
+    },
+}
