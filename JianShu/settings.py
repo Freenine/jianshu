@@ -123,7 +123,7 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-
+# 定时任务配置
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 CELERY_TIMEZONE = 'Asia/Shanghai'
@@ -131,9 +131,9 @@ CELERY_TIMEZONE = 'Asia/Shanghai'
 from celery.schedules import crontab
 
 CELERY_BEAT_SCHEDULE = {
-        'add-every-30-seconds': {
+        '每天晚上统计简书': {
         'task': 'apps.PyJianShu.tasks.add',
-        'schedule': crontab(hour=10, minute=7),
+        'schedule': crontab(hour=0, minute=0),
         'args': ()
     },
 }

@@ -12,7 +12,7 @@ class Article(models.Model):
     js_id = models.CharField(max_length=40, verbose_name='简书文章id', unique=True)
     article_page = models.CharField(max_length=40, verbose_name='简书文章页面')
     user = models.ForeignKey(User, on_delete=models.CASCADE,verbose_name='用户id')
-    newstime = models.BigIntegerField(verbose_name='发布时间')
+    newstime = models.IntegerField(verbose_name='发布时间')
 
     @staticmethod
     def addArticles(article_list):
@@ -30,7 +30,7 @@ class Comment(models.Model):
     js_user_id = models.CharField(max_length=40, verbose_name='简书用户id')
     js_article_id = models.CharField(max_length=40, verbose_name='简书文章id')
     js_article_user_id = models.CharField(max_length=40, verbose_name='文章所属用户简书id')
-    newstime = models.BigIntegerField(verbose_name='评论时间')
+    newstime = models.IntegerField(verbose_name='评论时间')
 
     @staticmethod
     def addComments(comment_list):
@@ -47,7 +47,7 @@ class Like(models.Model):
     js_user_id = models.CharField(max_length=40, verbose_name='简书用户id')
     js_like_user_id = models.CharField(max_length=40, verbose_name='简书获赞人id')
     js_article_id = models.CharField(max_length=40, verbose_name='简书文章id')
-    newstime = models.BigIntegerField(verbose_name='点赞时间')
+    newstime = models.IntegerField(verbose_name='点赞时间')
 
     @staticmethod
     def addLikes(like_list):
