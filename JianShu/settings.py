@@ -25,7 +25,10 @@ SECRET_KEY = 'u#5p6m2d$uik@$-rhv6uuf=%)4xenq*z9-#6m)%6&vltj+ze)1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'jsc.cn',
+    'jianshu.wangweijin.cn'
+]
 
 
 # Application definition
@@ -123,7 +126,7 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-
+# 定时任务配置
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 CELERY_TIMEZONE = 'Asia/Shanghai'
@@ -131,9 +134,9 @@ CELERY_TIMEZONE = 'Asia/Shanghai'
 from celery.schedules import crontab
 
 CELERY_BEAT_SCHEDULE = {
-        'add-every-30-seconds': {
+        '每天晚上统计简书': {
         'task': 'apps.PyJianShu.tasks.add',
-        'schedule': crontab(hour=10, minute=7),
+        'schedule': crontab(hour=0, minute=0),
         'args': ()
     },
 }
