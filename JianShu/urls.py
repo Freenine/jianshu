@@ -20,5 +20,5 @@ from apps.PyJianShu import views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('test/',views.grabdata)
+    # path('test/',views.grabdata)
 ]
