@@ -25,7 +25,10 @@ SECRET_KEY = 'u#5p6m2d$uik@$-rhv6uuf=%)4xenq*z9-#6m)%6&vltj+ze)1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'jsc.cn',
+    'jianshu.wangweijin.cn'
+]
 
 
 # Application definition
