@@ -11,6 +11,6 @@ Django and python
 ## 启动 redis
 > redis-server
 ## 启动任务调度
-> celery -A apps.PyJianShu.task worker -l info -P eventlet
+> celery worker -A JianShu -l info
 >
-> celery -A apps.PyJianShu.task beat -l info
+> celery beat -A JianShu -l info

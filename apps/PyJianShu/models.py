@@ -12,16 +12,17 @@ class Article(models.Model):
     js_id = models.CharField(max_length=40, verbose_name='简书文章id', unique=True)
     article_page = models.CharField(max_length=40, verbose_name='简书文章页面')
     user = models.ForeignKey(User, on_delete=models.CASCADE,verbose_name='用户id')
-    newstime = models.BigIntegerField(verbose_name='发布时间')
+    newstime = models.IntegerField(verbose_name='发布时间')
 
-    def addArticles(self, articles):
+    @staticmethod
+    def addArticles(article_list):
         querysetlist = []
-        for i in articles:
+        for i in article_list:
             # print(i['js_article_id'])
             querysetlist.append(
                 Article(title=MySQLdb.escape_string(i['title']), js_id=i['js_article_id'], article_page=i['url'],
                         newstime=i['time'], user_id=i['user_id']))
-        self.objects.bulk_create(querysetlist)
+        Article.objects.bulk_create(querysetlist)
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='用户id')
@@ -29,29 +30,31 @@ class Comment(models.Model):
     js_user_id = models.CharField(max_length=40, verbose_name='简书用户id')
     js_article_id = models.CharField(max_length=40, verbose_name='简书文章id')
     js_article_user_id = models.CharField(max_length=40, verbose_name='文章所属用户简书id')
-    newstime = models.BigIntegerField(verbose_name='评论时间')
+    newstime = models.IntegerField(verbose_name='评论时间')
 
-    def addComments(self, comments):
+    @staticmethod
+    def addComments(comment_list):
         querysetlist = []
-        for i in comments:
+        for i in comment_list:
             # print(i['user_js_id'])
             querysetlist.append(Comment(content=MySQLdb.escape_string(i['content']), js_article_id=i['js_article_id'],
                                         js_article_user_id=i['js_article_user'], newstime=i['time'],
                                         js_user_id=i['user_js_id'], user_id=i['user_id']))
-        self.objects.bulk_create(querysetlist)
+        Comment.objects.bulk_create(querysetlist)
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='用户id')
     js_user_id = models.CharField(max_length=40, verbose_name='简书用户id')
     js_like_user_id = models.CharField(max_length=40, verbose_name='简书获赞人id')
     js_article_id = models.CharField(max_length=40, verbose_name='简书文章id')
-    newstime = models.BigIntegerField(verbose_name='点赞时间')
+    newstime = models.IntegerField(verbose_name='点赞时间')
 
-    def addLikes(self, like_list):
+    @staticmethod
+    def addLikes(like_list):
         querysetlist = []
         for i in like_list:
             querysetlist.append(
                 Like(js_article_id=i['js_article_id'], js_like_user_id=i['js_like_user_id'], js_user_id=i['user_js_id'],
                      newstime=i['time'], user_id=i['user_id']))
-        self.objects.bulk_create(querysetlist)
+        Like.objects.bulk_create(querysetlist)
 
