@@ -1,7 +1,7 @@
 import requests,time, datetime,threading
 from bs4 import BeautifulSoup
 from .models import *
-
+from .function import  *
 user_all_list =[]
 flag = 0
 lock = threading.Lock()
@@ -67,9 +67,7 @@ def grabArticle(user):
     # otherStyleTime = time.strftime("%Y--%m--%d %H:%M:%S", timeArray)
     # print(otherStyleTime)
     # print(123)
-    today = datetime.date.today()
-    yesterday = today - datetime.timedelta(days=1)
-    yesterday_start_time = int(time.mktime(time.strptime(str(yesterday), '%Y-%m-%d')))
+
 
     # for user in user_list:
     # print(user)
@@ -100,12 +98,10 @@ def grabArticle(user):
             dt = span[0]['data-datetime'][0:10] + " " + span[0]['data-datetime'][11:19]
             timeArray = time.strptime(dt, "%Y-%m-%d %H:%M:%S")
             timeInt = int(time.mktime(timeArray))
+            yesStart = geTtimeStamp(getYesterday()['start'])
+            yesEnd = geTtimeStamp(getYesterday()['end'])
             # print(timeInt,nowData)
-            # if timeInt < yesterday_start_time:
-            #     break
-            # else:
-
-            if True:
+            if timeInt > yesStart and timeInt < yesEnd:
                 if data_type == 'share_note':
                     #文章
                     res = appendArticle(li,user_js_id,span,user_id)
@@ -120,9 +116,8 @@ def grabArticle(user):
                 elif data_type == 'like_note' and len(li.select('.title')) != 0:
                     res = appendLike(li, user_js_id, span,user_id)
                     like_list.append(res)
-                    # pass
-
-
+            elif timeInt < yesStart:
+                feedList = []
         page = page+ 1
         feed = int(feed) - 1
         url = 'https://www.jianshu.com/users/' + user_js_id + '/timeline?max_id='+ str(feed) + '&page=' + str(page)
