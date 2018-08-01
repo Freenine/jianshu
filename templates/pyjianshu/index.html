@@ -1,12 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>indexs</title>
-</head>
-<body>
-{% for li in article_list %}
-    <li><a href="{{ li.url }}">{{ li.title }} - {{ li.user_id }}</a></li>
-{% endfor %}
-</body>
-</html>
+{% extends "./layout.html" %}
+
+{% block title %} 文章排行榜 {% endblock %}
+
+{% block content %}
+    <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><img src=""></div>
+            <div class="weui-cell__bd">
+                <p>标题文字</p>
+            </div>
+            <div class="weui-cell__ft">说明文字</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><img src=""></div>
+            <div class="weui-cell__bd">
+                <p>标题文字</p>
+            </div>
+            <div class="weui-cell__ft">说明文字</div>
+        </div>
+    </div>
+{% endblock %}

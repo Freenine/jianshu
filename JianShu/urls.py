@@ -22,4 +22,5 @@ urlpatterns = [
     path('', views.articleCount),
     path('commentCount/', views.commentCount),
     path('zanCount/', views.zanCount),
+    path('test/', views.index)
 ]

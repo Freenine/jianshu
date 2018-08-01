@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'jsc.cn',
-    'jianshu.wangweijin.cn'
+    'jianshu.wangweijin.cn',
+    '127.0.0.1'
 ]
 
 
@@ -126,6 +127,11 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+
+print(STATICFILES_DIRS)
 # 定时任务配置
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
