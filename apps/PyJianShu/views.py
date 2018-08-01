@@ -8,15 +8,13 @@ import MySQLdb, time
 # Create your views here.
 
 def index(request):
-    context = {}
-    context['index'] = 'This is index!'
-    return render(request,'pyjianshu/index.html',context)
+    return render(request,'pyjianshu/index.html')
 
 # 文章统计
 def articleCount(request):
     this_week = getThisWeek()
-    time_start = geTtimeStamp(request.GET.get('time_start', this_week['start']))
-    time_end = geTtimeStamp(request.GET.get('time_end', this_week['end']))
+    time_start = (request.GET.get('time_start', geTtimeStamp(this_week['start'])))
+    time_end = (request.GET.get('time_end', geTtimeStamp(this_week['end'])))
 
     with connection.cursor() as cursor:
         cursor.execute("select u.name, u.home_page,count(a2.id) as article_count "
@@ -31,8 +29,8 @@ def articleCount(request):
 # 评论统计
 def commentCount(request):
     this_week = getThisWeek()
-    time_start = geTtimeStamp(request.GET.get('time_start', this_week['start']))
-    time_end = geTtimeStamp(request.GET.get('time_end', this_week['end']))
+    time_start = (request.GET.get('time_start', geTtimeStamp(this_week['start'])))
+    time_end = (request.GET.get('time_end', geTtimeStamp(this_week['end'])))
 
     with connection.cursor() as cursor:
         cursor.execute("select u.name, u.home_page,count(a2.id) as comment_count "
@@ -45,16 +43,16 @@ def commentCount(request):
     return JsonResponse(data, safe=False)
 
 # 赞统计
-def zanCount(request):
+def likeCount(request):
     this_week = getThisWeek()
-    time_start = geTtimeStamp(request.GET.get('time_start', this_week['start']))
-    time_end = geTtimeStamp(request.GET.get('time_end', this_week['end']))
+    time_start = (request.GET.get('time_start', geTtimeStamp(this_week['start'])))
+    time_end = (request.GET.get('time_end', geTtimeStamp(this_week['end'])))
 
     with connection.cursor() as cursor:
-        cursor.execute("select u.name, u.home_page,count(a2.id) as zan_count "
+        cursor.execute("select u.name, u.home_page,count(a2.id) as like_count "
                        "from PyJianShu_user as u "
-                       "left join (select a.user_id, a.id from PyJianShu_zan as a where a.newstime >= %s and a.newstime <= %s) "
-                       "as a2 on u.id=a2.user_id group by u.id order by zan_count desc", [time_start, time_end])
+                       "left join (select a.user_id, a.id from PyJianShu_like as a where a.newstime >= %s and a.newstime <= %s) "
+                       "as a2 on u.id=a2.user_id group by u.id order by like_count desc", [time_start, time_end])
 
         data = dictfetchall(cursor)
 

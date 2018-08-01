@@ -1,22 +1,200 @@
-{% extends "./layout.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>简书统计</title>
+    <!-- head 中 -->
+    <link rel="stylesheet" href="{% static "vender/jquery-weui-build/dist/demos/css/demos.css" %}">
+    <link rel="stylesheet" href="{% static "vender/jquery-weui-build/dist/lib/weui.min.css" %}">
+    <link rel="stylesheet" href="{% static "vender/jquery-weui-build/dist/css/jquery-weui.min.css" %}">
+</head>
+<body>
+<div style="height: 100%">
 
-{% block title %} 文章排行榜 {% endblock %}
-
-{% block content %}
-    <div class="weui-cells">
-        <div class="weui-cell">
-            <div class="weui-cell__hd"><img src=""></div>
-            <div class="weui-cell__bd">
-                <p>标题文字</p>
+    <div class="weui-tab">
+        <div class="weui-tab__bd" style="overflow: hidden">
+            <div id="article-count" class="weui-tab__bd-item weui-tab__bd-item--active"
+                 style="padding-bottom: 60px;box-sizing: border-box;">
+                <header class="demos-header" style="padding: 0">
+                    <h1 class="demos-title">文章排行榜</h1>
+                </header>
+                <div class="weui-cells">
+                    article
+                </div>
             </div>
-            <div class="weui-cell__ft">说明文字</div>
+            <div id="like-count" class="weui-tab__bd-item weui-tab__bd-item--active"
+                 style="padding-bottom: 60px;box-sizing: border-box;">
+                <header class="demos-header" style="padding: 0">
+                    <h1 class="demos-title">喜欢排行榜</h1>
+                </header>
+                <div class="weui-cells">
+                    like
+                </div>
+            </div>
+            <div id="comment-count" class="weui-tab__bd-item weui-tab__bd-item--active"
+                 style="padding-bottom: 60px;box-sizing: border-box;">
+                <header class="demos-header" style="padding: 0">
+                    <h1 class="demos-title">评论排行榜</h1>
+                </header>
+                <div class="weui-cells">
+                    comment
+                </div>
+            </div>
+            <div id="setting" class="weui-tab__bd-item weui-tab__bd-item--active"
+                 style="padding-bottom: 60px;box-sizing: border-box;">
+                <header class="demos-header" style="padding: 0">
+                    <h1 class="demos-title">统计时间设置</h1>
+                </header>
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cells weui-cells_form" style="margin-top: 0">
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label for="" class="weui-label">start</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="date" value="" id="start">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label for="" class="weui-label">end</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="date" value="" id="end">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weui-cells__tips">设定的时间将用于排行榜的统计</div>
+
+                </div>
+                <div class="weui-btn-area">
+                    <a class="weui-btn weui-btn_primary" href="javascript:" onclick="save_time()">保存</a>
+                </div>
+            </div>
         </div>
-        <div class="weui-cell">
-            <div class="weui-cell__hd"><img src=""></div>
-            <div class="weui-cell__bd">
-                <p>标题文字</p>
-            </div>
-            <div class="weui-cell__ft">说明文字</div>
+        <div class="weui-tabbar">
+            <a href="#article-count" class="weui-tabbar__item weui-bar__item--on" onclick="get_article()" id="article-but">
+                {#                <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>#}
+                <div class="weui-tabbar__icon">
+                    <img src="{% static "icon/article-icon.png" %}" alt="">
+                </div>
+                <p class="weui-tabbar__label">文章</p>
+            </a>
+            <a href="#like-count" class="weui-tabbar__item" onclick="get_like()">
+                <div class="weui-tabbar__icon">
+                    <img src="{% static "icon/like-icon.png" %}" alt="">
+                </div>
+                <p class="weui-tabbar__label">喜欢</p>
+            </a>
+            <a href="#comment-count" class="weui-tabbar__item" onclick="get_comment()">
+                <div class="weui-tabbar__icon">
+                    <img src="{% static "icon/comment-icon.png" %}" alt="">
+                </div>
+                <p class="weui-tabbar__label">评论</p>
+            </a>
+            <a href="#setting" class="weui-tabbar__item">
+                <div class="weui-tabbar__icon">
+                    <img src="{% static "icon/setting-icon.png" %}" alt="">
+                </div>
+                <p class="weui-tabbar__label">设置</p>
+            </a>
         </div>
     </div>
-{% endblock %}
+</div>
+<!-- body 最后 -->
+<script src="{% static "vender/jquery-weui-build/dist/lib/jquery-3.3.1.min.js" %}"></script>
+<script src="{% static "vender/jquery-weui-build/dist/js/jquery-weui.min.js" %}"></script>
+<script>
+    let start_time = '',
+        end_time = '';
+    window.onload = function () {
+        let now = new Date(); //当前日期
+        let nowDayOfWeek = now.getDay(); //今天本周的第几天
+        let nowDay = now.getDate(); //当前日
+        let nowMonth = now.getMonth(); //当前月
+        let nowYear = now.getFullYear(); //当前年
+        let start = (new Date(nowYear, nowMonth, nowDay - (nowDayOfWeek - 1)));
+        let end = (new Date(nowYear, nowMonth, nowDay + (7 - nowDayOfWeek )));
+        start_time = start.getTime()/1000;
+        end_time = end.getTime()/1000+86400-1;
+        $('#start').val(formatDate(start));
+        $('#end').val(formatDate(end));
+        get_article();
+    };
+
+    function get_article() {
+        $.showLoading('正在加载数据');
+        $.get('/articleCount', {
+            'time_start': start_time,
+            'time_end': end_time,
+        }, function (data) {
+            console.log(data);
+            $('#article-count>div').html(getHtml(data, 'article'));
+            $.hideLoading();
+        })
+    }
+
+    function get_like() {
+        $.showLoading('正在加载数据');
+        $.get('/likeCount', {
+            'time_start': start_time,
+            'time_end': end_time,
+        }, function (data) {
+            console.log(data)
+            $('#like-count>div').html(getHtml(data, 'like'));
+            $.hideLoading();
+        })
+    }
+
+    function get_comment() {
+        $.showLoading('正在加载数据');
+        $.get('/commentCount', {
+            'time_start': start_time,
+            'time_end': end_time,
+        }, function (data) {
+            console.log(data)
+            $('#comment-count>div').html(getHtml(data, 'comment'));
+            $.hideLoading();
+        })
+    }
+
+    function getHtml(data, name) {
+        let html = '';
+        for (let i = 0; i < data.length; i++){
+            html +=
+                '<div class="weui-cell">' +
+                '   <div class="weui-cell__hd" style="width:30px;">'+ (i+1) +'</div>' +
+                '   <div class="weui-cell__bd">' +
+                '       <a href="'+ data[i].home_page +'" style="color:#000;"><p>'+ data[i].name +'</p></a>' +
+                '   </div>' +
+                '   <div class="weui-cell__ft">'+ data[i][name+'_count'] +'</div>' +
+                '</div>';
+        }
+        return html;
+    }
+
+    function save_time() {
+        start_time = new Date($('#start').val()).getTime()/1000;
+        end_time = new Date($('#end').val()).getTime()/1000+86400-1;
+        console.log(end_time);
+        get_article();
+        $('.weui-tab__bd-item--active').removeClass('weui-tab__bd-item--active');
+        $('#article-count').addClass('weui-tab__bd-item--active');
+
+        $('.weui-bar__item--on').removeClass('weui-bar__item--on');
+        $('#article-but').addClass('weui-bar__item--on');
+    }
+    //格式化日期：yyyy-MM-dd
+    function formatDate(date) {
+        let myyear = date.getFullYear();
+        let mymonth = date.getMonth() + 1;
+        let myweekday = date.getDate();
+        if (mymonth < 10) {
+            mymonth = "0" + mymonth;
+        }
+        if (myweekday < 10) {
+            myweekday = "0" + myweekday;
+        }
+        return (myyear + "-" + mymonth + "-" + myweekday);
+    }
+</script>
+</body>
+</html>
