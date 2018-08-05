@@ -101,14 +101,14 @@
 </div>
 <!-- body 最后 -->
 
-    <script src="//cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
+<script src="//cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
 
 <script src="{% static "vender/jquery-weui-build/dist/lib/jquery-3.3.1.min.js" %}"></script>
 <script src="{% static "vender/jquery-weui-build/dist/js/jquery-weui.min.js" %}"></script>
 <script>
-    let start_time = '',
-        end_time = '';
+    let start_time = '';
+    let end_time = '';
     window.onload = function () {
         let now = new Date(); //当前日期
         let nowDayOfWeek = now.getDay(); //今天本周的第几天
@@ -123,13 +123,11 @@
         $('#end').val(formatDate(end));
         get_article();
     };
-</script>
-<script>
     function get_article() {
         $.showLoading('正在加载数据');
         $.get('/articleCount', {
             'time_start': start_time,
-            'time_end': end_time,
+            'time_end': end_time
         }, function (data) {
             console.log(data);
             $('#article-count>div').html(getHtml(data, 'article'));
@@ -141,7 +139,7 @@
         $.showLoading('正在加载数据');
         $.get('/likeCount', {
             'time_start': start_time,
-            'time_end': end_time,
+            'time_end': end_time
         }, function (data) {
             console.log(data);
             $('#like-count>div').html(getHtml(data, 'like'));
@@ -153,7 +151,7 @@
         $.showLoading('正在加载数据');
         $.get('/commentCount', {
             'time_start': start_time,
-            'time_end': end_time,
+            'time_end': end_time
         }, function (data) {
             console.log(data);
             $('#comment-count>div').html(getHtml(data, 'comment'));
