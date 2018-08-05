@@ -111,8 +111,8 @@
         let nowDay = now.getDate(); //当前日
         let nowMonth = now.getMonth(); //当前月
         let nowYear = now.getFullYear(); //当前年
-        let start = (new Date(nowYear, nowMonth, nowDay - (nowDayOfWeek - 1)));
-        let end = (new Date(nowYear, nowMonth, nowDay + (7 - nowDayOfWeek )));
+        let start = (new Date(nowYear, nowMonth, nowDay - ((nowDayOfWeek + 6) % 7)));
+        let end = (new Date(nowYear, nowMonth, nowDay + (7 - ((nowDayOfWeek + 6) % 7 + 1))));
         start_time = start.getTime()/1000;
         end_time = end.getTime()/1000+86400-1;
         $('#start').val(formatDate(start));
