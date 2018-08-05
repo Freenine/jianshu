@@ -107,16 +107,16 @@
 <script src="{% static "vender/jquery-weui-build/dist/lib/jquery-3.3.1.min.js" %}"></script>
 <script src="{% static "vender/jquery-weui-build/dist/js/jquery-weui.min.js" %}"></script>
 <script>
-    let start_time = '';
-    let end_time = '';
+    var start_time = '';
+    var end_time = '';
     window.onload = function () {
-        let now = new Date(); //当前日期
-        let nowDayOfWeek = now.getDay(); //今天本周的第几天
-        let nowDay = now.getDate(); //当前日
-        let nowMonth = now.getMonth(); //当前月
-        let nowYear = now.getFullYear(); //当前年
-        let start = (new Date(nowYear, nowMonth, nowDay - ((nowDayOfWeek + 6) % 7)));
-        let end = (new Date(nowYear, nowMonth, nowDay + (7 - ((nowDayOfWeek + 6) % 7 + 1))));
+        var now = new Date(); //当前日期
+        var nowDayOfWeek = now.getDay(); //今天本周的第几天
+        var nowDay = now.getDate(); //当前日
+        var nowMonth = now.getMonth(); //当前月
+        var nowYear = now.getFullYear(); //当前年
+        var start = (new Date(nowYear, nowMonth, nowDay - ((nowDayOfWeek + 6) % 7)));
+        var end = (new Date(nowYear, nowMonth, nowDay + (7 - ((nowDayOfWeek + 6) % 7 + 1))));
         start_time = start.getTime()/1000;
         end_time = end.getTime()/1000+86400-1;
         $('#start').val(formatDate(start));
@@ -160,8 +160,8 @@
     }
 
     function getHtml(data, name) {
-        let html = '';
-        for (let i = 0; i < data.length; i++){
+        var html = '';
+        for (var i = 0; i < data.length; i++){
             html +=
                 '<div class="weui-cell">' +
                 '   <div class="weui-cell__hd" style="width:30px;">'+ (i+1) +'</div>' +
@@ -187,9 +187,9 @@
     }
     //格式化日期：yyyy-MM-dd
     function formatDate(date) {
-        let myyear = date.getFullYear();
-        let mymonth = date.getMonth() + 1;
-        let myweekday = date.getDate();
+        var myyear = date.getFullYear();
+        var mymonth = date.getMonth() + 1;
+        var myweekday = date.getDate();
         if (mymonth < 10) {
             mymonth = "0" + mymonth;
         }
