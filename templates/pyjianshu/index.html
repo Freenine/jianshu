@@ -143,7 +143,7 @@
             'time_start': start_time,
             'time_end': end_time,
         }, function (data) {
-            console.log(data)
+            console.log(data);
             $('#like-count>div').html(getHtml(data, 'like'));
             $.hideLoading();
         })
@@ -155,7 +155,7 @@
             'time_start': start_time,
             'time_end': end_time,
         }, function (data) {
-            console.log(data)
+            console.log(data);
             $('#comment-count>div').html(getHtml(data, 'comment'));
             $.hideLoading();
         })
