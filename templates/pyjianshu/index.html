@@ -100,6 +100,10 @@
     </div>
 </div>
 <!-- body 最后 -->
+
+    <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
+
 <script src="{% static "vender/jquery-weui-build/dist/lib/jquery-3.3.1.min.js" %}"></script>
 <script src="{% static "vender/jquery-weui-build/dist/js/jquery-weui.min.js" %}"></script>
 <script>
@@ -197,18 +201,5 @@
         return (myyear + "-" + mymonth + "-" + myweekday);
     }
 </script>
-<h1>点右下角的图标可以出来工具</h1>
-
-    <script>
-        console.log('捕获不到这句话');
-    </script>
-
-    <script src="//cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
-
-    <script>
-        console.log('你可以看到这句话');
-    </script>
-
 </body>
 </html>
