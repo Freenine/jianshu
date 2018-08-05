@@ -119,7 +119,8 @@
         $('#end').val(formatDate(end));
         get_article();
     };
-
+</script>
+<script>
     function get_article() {
         $.showLoading('正在加载数据');
         $.get('/articleCount', {
@@ -196,5 +197,18 @@
         return (myyear + "-" + mymonth + "-" + myweekday);
     }
 </script>
+<h1>点右下角的图标可以出来工具</h1>
+
+    <script>
+        console.log('捕获不到这句话');
+    </script>
+
+    <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
+
+    <script>
+        console.log('你可以看到这句话');
+    </script>
+
 </body>
 </html>
