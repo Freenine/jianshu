@@ -89,6 +89,7 @@ def grabArticle(user):
     # print(ul)
     page = 1
     feed = 999999999
+    flog = True
     while len(feedList) != 0:
         feed = feedList[-1]
         for li in ul:
@@ -100,8 +101,8 @@ def grabArticle(user):
             timeInt = int(time.mktime(timeArray))
             yesStart = geTtimeStamp(getYesterday()['start'])
             yesEnd = geTtimeStamp(getYesterday()['end'])
-            # print(timeInt,nowData)
             if timeInt > yesStart and timeInt < yesEnd:
+                print(timeInt, yesStart, yesEnd)
                 if data_type == 'share_note':
                     #文章
                     res = appendArticle(li,user_js_id,span,user_id)
@@ -118,6 +119,10 @@ def grabArticle(user):
                     like_list.append(res)
             elif timeInt < yesStart:
                 feedList = []
+                flog = False
+                break
+        if flog == False:
+            break
         page = page+ 1
         feed = int(feed) - 1
         url = 'https://www.jianshu.com/users/' + user_js_id + '/timeline?max_id='+ str(feed) + '&page=' + str(page)
