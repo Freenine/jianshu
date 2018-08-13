@@ -2,10 +2,14 @@ from django.shortcuts import render
 from django.db import connection
 from django.http import JsonResponse
 from .function import dictfetchall, getThisWeek, geTtimeStamp
+from .grab import execute
 import MySQLdb, time
 
 # from django.http import HttpResponse
 # Create your views here.
+def test(request):
+    execute()
+    return render(request,'pyjianshu/test.html')
 
 def index(request):
     return render(request,'pyjianshu/index.html')

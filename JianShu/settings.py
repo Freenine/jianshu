@@ -28,7 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'jsc.cn',
     'jianshu.wangweijin.cn',
-    '127.0.0.1'
+    '127.0.0.1',
+    'localhost'
 ]
 
 

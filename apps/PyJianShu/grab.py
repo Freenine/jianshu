@@ -12,42 +12,15 @@ comment_list = []
 like_list = []
 
 def getUser(test):
-    # global user_all_list,flag
-    # lock.acquire()
-    # try:
 
-    # print(user_all_list)
-    # if len(user_all_list) != 0:
-    #     data = user_all_list[0]
-    #     print(data,123)
-    #     user_all_list.pop(0)
-    #     print(user_all_list)
-    #     grabArticle(data)
-    #     print(len(user_all_list))
-    #
-    #     while True:
-    #         # print()
-    #         if flag <= 0:
-    #             break
-    #         print("thread name = {}, thread id = {}".format(threading.current_thread().name,threading.current_thread().ident))
-        print(len(test),'1----')
-        for user in test:
-            # if user.id != 0:
-            #     flag = flag - 1
-            print(user,'---------',"thread name = {}, thread id = {}".format(threading.current_thread().name,threading.current_thread().ident))
-            grabArticle(user)
-            # user.id = 0
+    for user in test:
+        grabArticle(user)
 
-    # finally:
-    #     lock.release()
 
 def getData(userDict):
 
     time1 = time.time()
-    # print(userDict)
     for user in userDict:
-        # print(user.id)
-        # if user.js_id == '4c37355883d7':
         grabArticle(user)
 
     time2 = time.time()
@@ -56,21 +29,11 @@ def getData(userDict):
 
 
 def grabArticle(user):
-    global user_all_list,like_list,comment_list
+    global user_all_list,like_list,comment_list,article_list
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36'
     }
 
-    # nowData = int(time.time())
-    # yes_data = nowData - (60 * 60 * 24)
-    # timeArray = time.localtime(yes_data)
-    # otherStyleTime = time.strftime("%Y--%m--%d %H:%M:%S", timeArray)
-    # print(otherStyleTime)
-    # print(123)
-
-
-    # for user in user_list:
-    # print(user)
     user_js_id = user.js_id
     user_id = user.id
     url = 'https://www.jianshu.com/users/' + user_js_id + '/timeline?_pjax=%23list-container'
@@ -85,11 +48,11 @@ def grabArticle(user):
     for feedLi in data:
         feedList.append(feedLi['id'][5:])
 
-    # print(feedList,feed)
-    # print(ul)
     page = 1
     feed = 999999999
     flog = True
+    yesStart = geTtimeStamp(getYesterday()['start'])
+    yesEnd = geTtimeStamp(getYesterday()['end'])
     while len(feedList) != 0:
         feed = feedList[-1]
         for li in ul:
@@ -99,10 +62,8 @@ def grabArticle(user):
             dt = span[0]['data-datetime'][0:10] + " " + span[0]['data-datetime'][11:19]
             timeArray = time.strptime(dt, "%Y-%m-%d %H:%M:%S")
             timeInt = int(time.mktime(timeArray))
-            yesStart = geTtimeStamp(getYesterday()['start'])
-            yesEnd = geTtimeStamp(getYesterday()['end'])
             if timeInt > yesStart and timeInt < yesEnd:
-                print(timeInt, yesStart, yesEnd)
+                # print(timeInt, yesStart, yesEnd)
                 if data_type == 'share_note':
                     #文章
                     res = appendArticle(li,user_js_id,span,user_id)
@@ -205,8 +166,13 @@ def appendLike(li,user_js_id,span,user_id):
     return d
 
 def execute():
+    global like_list, comment_list, article_list
     list = User.objects.all()
+    article_list = []
+    comment_list = []
+    like_list = []
     data = getData(list)
     Article.addArticles(data['article_list'])
     Comment.addComments(data['comment_list'])
     Like.addLikes(data['like_list'])
+

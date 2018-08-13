@@ -23,4 +23,5 @@ urlpatterns = [
     path('articleCount/', views.articleCount),
     path('commentCount/', views.commentCount),
     path('likeCount/', views.likeCount),
+    # path('test/', views.test),
 ]
